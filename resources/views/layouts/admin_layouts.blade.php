@@ -11,7 +11,7 @@
 </head>
 <body class="bg-gray-50 font-sans antialiased">
     <div class="min-h-screen flex flex-col md:flex-row">
-        
+
         <aside class="w-full md:w-64 bg-white shadow-lg">
             <div class="p-6">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="text-sm">
                         <p class="font-bold">{{ auth()->user()->name }}</p>
-                        
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="text-red-500 text-xs hover:underline">Logout</button>

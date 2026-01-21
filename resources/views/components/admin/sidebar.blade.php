@@ -2,11 +2,11 @@
     <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
     <div class="flex min-h-full flex-col items-start bg-base-200 w-64 is-drawer-close:w-14 is-drawer-open:w-80 transition-all duration-300">
         <div class="w-full flex items-center justify-center p-4">
-            <img src="{{ asset('assets/images/logo_bengkod.svg') }}" alt="Logo" class="h-10"> 
+            <img src="{{ asset('assets/images/logo_bengkod.svg') }}" alt="Logo" class="h-10">
         </div>
 
         <ul class="menu w-full grow gap-1">
-            
+
             <li class="{{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 rounded-lg' : '' }}">
                 <a href="{{ route('admin.dashboard') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -31,6 +31,25 @@
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2" />
                     </svg>
                     <span class="is-drawer-close:hidden">Manajemen Event</span>
+                </a>
+            </li>
+
+            <li class="{{ request()->routeIs('admin.tikets.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.tikets.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4zm6-4v16" />
+                    </svg>
+                    <span class="is-drawer-close:hidden">Manajemen Tiket</span>
+                </a>
+            </li>
+
+            <li class="{{ request()->routeIs('admin.pembayarans.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.pembayarans.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                    <span class="is-drawer-close:hidden">Manajemen Pembayaran</span>
                 </a>
             </li>
 

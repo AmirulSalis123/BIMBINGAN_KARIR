@@ -4,13 +4,15 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 // PERBAIKAN 1: Gunakan Controller dari folder User sesuai Module 13
-use App\Http\Controllers\User\EventController as UserEventController; 
+use App\Http\Controllers\User\EventController as UserEventController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TiketController;
 use App\Http\Controllers\Admin\HistoriesController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Controllers\Admin\TicketTypeController;
+use App\Http\Controllers\PembayaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,22 +35,26 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        
+
         // 1. Dashboard Admin
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         // 2. CRUD Kategori
         Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
-        
+
         // 3. CRUD Event
         Route::resource('events', AdminEventController::class);
 
         // 4. CRUD Tiket
         Route::resource('tickets', TiketController::class)->only(['store', 'update', 'destroy']);
-        
+
         // 5. History Pembelian
         Route::get('/histories', [HistoriesController::class, 'index'])->name('histories.index');
         Route::get('/histories/{id}', [HistoriesController::class, 'show'])->name('histories.show');
+
+        Route::resource('tikets', TicketTypeController::class);
+
+        Route::resource('pembayarans', PembayaranController::class);
     });
 
 /*

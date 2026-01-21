@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        
+
         // Merubah route nya
         return redirect(route('dashboard', absolute: false));
     }
