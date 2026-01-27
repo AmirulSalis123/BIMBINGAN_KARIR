@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Jan 2026 pada 18.01
+-- Waktu pembuatan: 27 Jan 2026 pada 18.13
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -61,15 +61,6 @@ CREATE TABLE `detail_orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data untuk tabel `detail_orders`
---
-
-INSERT INTO `detail_orders` (`id`, `order_id`, `tiket_id`, `jumlah`, `subtotal_harga`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1500000.00, '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(2, 2, 3, 1, 200000.00, '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(3, 3, 4, 2, 600000.00, '2026-01-16 23:54:55', '2026-01-16 23:54:55');
-
 -- --------------------------------------------------------
 
 --
@@ -80,9 +71,9 @@ CREATE TABLE `events` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `kategori_id` bigint(20) UNSIGNED NOT NULL,
+  `lokasi_id` bigint(20) UNSIGNED DEFAULT NULL,
   `judul` varchar(255) NOT NULL,
   `deskripsi` text NOT NULL,
-  `lokasi` varchar(255) NOT NULL,
   `gambar` varchar(255) NOT NULL,
   `tanggal_waktu` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -93,10 +84,9 @@ CREATE TABLE `events` (
 -- Dumping data untuk tabel `events`
 --
 
-INSERT INTO `events` (`id`, `user_id`, `kategori_id`, `judul`, `deskripsi`, `lokasi`, `gambar`, `tanggal_waktu`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Konser Musik Rock', 'Nikmati malam penuh energi dengan band rock terkenal.', 'Stadion Utama', 'konser_rock.jpg', '2024-08-15 19:00:00', '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(2, 1, 2, 'Pameran Seni Kontemporer', 'Jelajahi karya seni modern dari seniman lokal dan internasional.', 'Galeri Seni Kota', 'pameran_seni.jpg', '2024-09-10 10:00:00', '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(3, 1, 3, 'Festival Makanan Internasional', 'Cicipi berbagai hidangan lezat dari seluruh dunia.', 'Taman Kota', 'festival_makanan.jpg', '2024-10-05 12:00:00', '2026-01-16 10:24:08', '2026-01-16 10:24:08');
+INSERT INTO `events` (`id`, `user_id`, `kategori_id`, `lokasi_id`, `judul`, `deskripsi`, `gambar`, `tanggal_waktu`, `created_at`, `updated_at`) VALUES
+(4, 1, 1, 1, 'sejarah', 'aku', '1769529004.png', '2026-01-27 01:53:00', '2026-01-27 08:50:04', '2026-01-27 08:50:04'),
+(5, 1, 2, 2, 'ppp', 'aa', '1769529575.png', '2026-01-27 01:02:00', '2026-01-27 08:59:35', '2026-01-27 08:59:35');
 
 -- --------------------------------------------------------
 
@@ -167,9 +157,30 @@ CREATE TABLE `kategoris` (
 --
 
 INSERT INTO `kategoris` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(1, 'Konser', '2026-01-16 10:24:07', '2026-01-16 10:24:07'),
-(2, 'Seminar', '2026-01-16 10:24:07', '2026-01-16 10:24:07'),
-(3, 'Workshop', '2026-01-16 10:24:07', '2026-01-16 10:24:07');
+(1, 'Konser', '2026-01-25 23:52:22', '2026-01-25 23:52:22'),
+(2, 'Seminar', '2026-01-25 23:52:22', '2026-01-25 23:52:22'),
+(3, 'Workshop', '2026-01-25 23:52:22', '2026-01-25 23:52:22');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `lokasis`
+--
+
+CREATE TABLE `lokasis` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `lokasis`
+--
+
+INSERT INTO `lokasis` (`id`, `nama`, `created_at`, `updated_at`) VALUES
+(1, 'aku', '2026-01-27 08:49:41', '2026-01-27 08:49:41'),
+(2, 'dia', '2026-01-27 08:59:05', '2026-01-27 08:59:05');
 
 -- --------------------------------------------------------
 
@@ -198,9 +209,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2026_01_01_103244_create_detail_orders_table', 1),
 (9, '2026_01_01_103431_add_roles_to_users_table', 1),
 (10, '2026_01_01_103457_add_no_hp_to_users_table', 1),
-(11, '2026_01_17_065418_force_add_status_to_orders', 2),
-(12, '2026_01_21_113338_create_ticket_types_table', 3),
-(13, '2026_01_21_134102_create_pembayarans_table', 4);
+(11, '2026_01_17_065418_force_add_status_to_orders', 1),
+(12, '2026_01_21_113338_create_ticket_types_table', 1),
+(13, '2026_01_21_134102_create_pembayarans_table', 1),
+(18, '2026_01_27_134554_create_lokasis_table', 2);
 
 -- --------------------------------------------------------
 
@@ -219,15 +231,6 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data untuk tabel `orders`
---
-
-INSERT INTO `orders` (`id`, `user_id`, `event_id`, `order_date`, `total_harga`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, '2024-07-01 14:30:00', 1500000.00, 'success', '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(2, 2, 2, '2024-07-02 10:15:00', 200000.00, 'success', '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(3, 2, 3, '2026-01-17 06:54:55', 600000.00, 'success', '2026-01-16 23:54:55', '2026-01-16 23:54:55');
-
 -- --------------------------------------------------------
 
 --
@@ -239,6 +242,26 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pembayarans`
+--
+
+CREATE TABLE `pembayarans` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nama_pembayaran` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `pembayarans`
+--
+
+INSERT INTO `pembayarans` (`id`, `nama_pembayaran`, `created_at`, `updated_at`) VALUES
+(1, 'dana', '2026-01-25 23:52:02', '2026-01-25 23:52:02');
 
 -- --------------------------------------------------------
 
@@ -260,7 +283,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1j2LHgQVTIcvbiYyWDydswBtq6CrquSaPLz2vlNj', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVWlvUVJhemNkWk9jMk8xWWI5elhJU3ViOHBVbzZQWUtKTEVGajR1TCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wZW1iYXlhcmFucyI7czo1OiJyb3V0ZSI7czoyMzoiYWRtaW4ucGVtYmF5YXJhbnMuaW5kZXgiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1769014028);
+('44dGHFhA2T1gw5puUuUIeiBqTFaB4mh4qtOOAbB0', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMkw1V3VzdUFEU3VEZ0ZLbGdBVzRqM0ZKVldKcmFWR3M4azBhU0trVSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi90aWtldHMiO3M6NToicm91dGUiO3M6MTg6ImFkbWluLnRpa2V0cy5pbmRleCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1769533743);
 
 -- --------------------------------------------------------
 
@@ -280,7 +303,7 @@ CREATE TABLE `ticket_types` (
 --
 
 INSERT INTO `ticket_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(2, 'vipp', '2026-01-21 05:10:18', '2026-01-21 05:10:23');
+(1, 'vip', '2026-01-25 23:51:55', '2026-01-25 23:51:55');
 
 -- --------------------------------------------------------
 
@@ -297,16 +320,6 @@ CREATE TABLE `tikets` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `tikets`
---
-
-INSERT INTO `tikets` (`id`, `event_id`, `tipe`, `harga`, `stok`, `created_at`, `updated_at`) VALUES
-(1, 1, 'premium', 1500000.00, 100, '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(2, 1, 'reguler', 500000.00, 500, '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(3, 2, 'premium', 200000.00, 300, '2026-01-16 10:24:08', '2026-01-16 10:24:08'),
-(4, 3, 'premium', 300000.00, 198, '2026-01-16 10:24:08', '2026-01-16 23:54:55');
 
 -- --------------------------------------------------------
 
@@ -332,8 +345,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `no_hp`) VALUES
-(1, 'Admin User', 'admin@gmail.com', NULL, '$2y$12$5kzhk8YMeATpIUkbCvg.P.BNmFITLAKDv/FJz8Wr5uvxAtcTXMrSy', NULL, '2026-01-16 10:24:08', '2026-01-16 10:24:08', 'admin', NULL),
-(2, 'Regular User', 'user@gmail.com', NULL, '$2y$12$1t2qGWtt1aCJ6oTUDK/tTOuGm0wPX4dj/WDUkXAyT.a5Szn3LqBEi', NULL, '2026-01-16 10:24:08', '2026-01-16 10:24:08', 'user', '081234567890');
+(1, 'Admin User', 'admin@gmail.com', NULL, '$2y$12$AB1vp9uLYAmAi7eByjWhPOW3YfdVrH/5ISAlbMosJLPAOzx09zLfa', NULL, '2026-01-25 23:50:01', '2026-01-25 23:50:01', 'admin', ''),
+(2, 'Reguler User', 'user@gmail.com', NULL, '$2y$12$s4DIlYPndL2xxxC/WLBuhOnGsulyIvhHPCZQi/azWhE0FTXLAEyg2', NULL, '2026-01-25 23:50:17', '2026-01-25 23:50:17', 'user', '081234567890');
 
 --
 -- Indexes for dumped tables
@@ -365,7 +378,8 @@ ALTER TABLE `detail_orders`
 ALTER TABLE `events`
   ADD PRIMARY KEY (`id`),
   ADD KEY `events_user_id_foreign` (`user_id`),
-  ADD KEY `events_kategori_id_foreign` (`kategori_id`);
+  ADD KEY `events_kategori_id_foreign` (`kategori_id`),
+  ADD KEY `events_lokasi_id_foreign` (`lokasi_id`);
 
 --
 -- Indeks untuk tabel `failed_jobs`
@@ -395,6 +409,13 @@ ALTER TABLE `kategoris`
   ADD UNIQUE KEY `kategoris_nama_unique` (`nama`);
 
 --
+-- Indeks untuk tabel `lokasis`
+--
+ALTER TABLE `lokasis`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `lokasis_nama_unique` (`nama`);
+
+--
 -- Indeks untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
@@ -413,6 +434,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
+
+--
+-- Indeks untuk tabel `pembayarans`
+--
+ALTER TABLE `pembayarans`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `sessions`
@@ -450,13 +477,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -474,13 +501,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `kategoris`
 --
 ALTER TABLE `kategoris`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `lokasis`
+--
+ALTER TABLE `lokasis`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `orders`
@@ -489,22 +522,28 @@ ALTER TABLE `orders`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT untuk tabel `pembayarans`
+--
+ALTER TABLE `pembayarans`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `ticket_types`
 --
 ALTER TABLE `ticket_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tikets`
 --
 ALTER TABLE `tikets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -522,6 +561,7 @@ ALTER TABLE `detail_orders`
 --
 ALTER TABLE `events`
   ADD CONSTRAINT `events_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategoris` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `events_lokasi_id_foreign` FOREIGN KEY (`lokasi_id`) REFERENCES `lokasis` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `events_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --

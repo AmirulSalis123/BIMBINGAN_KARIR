@@ -6,7 +6,7 @@
                     Temukan Event Seru,<br>Amankan Tiketmu!
                 </h1>
                 <p class="py-6 text-xl text-blue-100">
-                    Platform pembelian tiket event termudah dan terpercaya. 
+                    Platform pembelian tiket event termudah dan terpercaya.
                     Dari konser musik hingga seminar inspiratif, semua ada di BengTix.
                 </p>
                 <a href="#event-section" class="btn btn-warning btn-lg px-8 rounded-full">Cari Event Sekarang</a>
@@ -15,21 +15,21 @@
     </div>
 
     <section id="event-section" class="max-w-7xl mx-auto py-12 px-6">
-        
+
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <h2 class="text-2xl font-black uppercase italic text-gray-800 border-l-4 border-blue-900 pl-3">
                 Jelajahi Event
             </h2>
-            
+
             <div class="flex flex-wrap gap-2 justify-center md:justify-end">
                 <a href="{{ route('home') }}">
                     <x-user.category-pill :label="'Semua'" :active="!request('kategori')" />
                 </a>
                 @foreach($categories as $kategori)
                 <a href="{{ route('home', ['kategori' => $kategori->id]) }}">
-                    <x-user.category-pill 
-                        :label="$kategori->nama" 
-                        :active="request('kategori') == $kategori->id" 
+                    <x-user.category-pill
+                        :label="$kategori->nama"
+                        :active="request('kategori') == $kategori->id"
                     />
                 </a>
                 @endforeach
@@ -39,13 +39,13 @@
         @if($events->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($events as $event)
-                    <x-user.event-card 
+                    <x-user.event-card
                         :href="route('events.show', $event->id)"
-                        :title="$event->judul" 
-                        :date="$event->tanggal_waktu" 
-                        :location="$event->lokasi"
-                        :price="$event->tikets_min_harga" 
-                        :image="$event->gambar" 
+                        :title="$event->judul"
+                        :date="$event->tanggal_waktu"
+                        :location="$event->lokasi?->nama ?? 'Lokasi tidak tersedia'"
+                        :price="$event->tikets_min_harga"
+                        :image="$event->gambar"
                         :href="route('events.show', $event)"
                     />
                 @endforeach
@@ -58,6 +58,6 @@
                 <a href="{{ route('home') }}" class="btn btn-outline mt-4">Lihat Semua Event</a>
             </div>
         @endif
-        
+
     </section>
 </x-layouts.app>

@@ -10,17 +10,17 @@
         : 'Segera';
 
     // Logic Gambar: Gunakan gambar default jika kosong
-    $imageUrl = $image 
-        ? asset('images/events/' . $image) 
+    $imageUrl = $image
+        ? asset('images/events/' . $image)
         : 'https://placehold.co/400x250?text=No+Image';
 @endphp
 
 <a href="{{ $href ?? '#' }}" class="block group">
     <div class="card bg-base-100 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
         <figure class="h-48 overflow-hidden">
-            <img 
-                src="{{ $imageUrl }}" 
-                alt="{{ $title }}" 
+            <img
+                src="{{ $imageUrl }}"
+                alt="{{ $title }}"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             >
         </figure>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="text-sm text-gray-500 flex items-center gap-1">
-                📍 {{ $location }}
+                📍 {{ $location ?? 'Lokasi tidak tersedia' }}
             </div>
 
             <div class="mt-auto pt-4 border-t border-gray-100">

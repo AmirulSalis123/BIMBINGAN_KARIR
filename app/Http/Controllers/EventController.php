@@ -13,7 +13,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         // Load the event with its relationships
-        $event->load(['kategori', 'tikets']);
+        $event->load(['kategori', 'tikets', 'lokasi']);
 
         return view('events.show', [
             'event' => $event,

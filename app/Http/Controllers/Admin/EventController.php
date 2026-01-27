@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Kategori;
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class EventController extends Controller
     // Menampilkan daftar event
     public function index()
     {
-        $events = Event::with('kategori')->latest()->get();
+        $events = Event::with(['kategori', 'lokasi'])->latest()->paginate(10);
         return view('pages.admin.event.index', compact('events'));
     }
 
@@ -22,7 +23,8 @@ class EventController extends Controller
     public function create()
     {
         $categories = Kategori::all();
-        return view('pages.admin.event.create', compact('categories'));
+        $locations = Lokasi::orderBy('nama')->get();
+        return view('pages.admin.event.create', compact('categories', 'locations'));
     }
 
     // Simpan event baru
@@ -32,7 +34,7 @@ class EventController extends Controller
             'judul'         => 'required|string|max:255',
             'deskripsi'     => 'required|string',
             'tanggal_waktu' => 'required|date',
-            'lokasi'        => 'required|string|max:255',
+            'lokasi_id'     => 'required|exists:lokasis,id',
             'kategori_id'   => 'required|exists:kategoris,id',
             'gambar'        => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -56,9 +58,9 @@ class EventController extends Controller
     // Tampilkan detail event
     public function show(string $id)
     {
-        $event = Event::with(['kategori', 'tikets'])->findOrFail($id);
+        $event = Event::with(['kategori', 'tikets', 'lokasi'])->findOrFail($id);
         $categories = Kategori::all();
-        $tickets = $event->tikets; // Ambil tiket terkait jika ada
+        $tickets = $event->tikets;
 
         return view('pages.admin.event.show', compact('event', 'categories', 'tickets'));
     }
@@ -66,9 +68,10 @@ class EventController extends Controller
     // Form edit event
     public function edit(string $id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::with('lokasi')->findOrFail($id);
         $categories = Kategori::all();
-        return view('pages.admin.event.edit', compact('event', 'categories'));
+        $locations = Lokasi::orderBy('nama')->get();
+        return view('pages.admin.event.edit', compact('event', 'categories', 'locations'));
     }
 
     // Update event
@@ -81,7 +84,7 @@ class EventController extends Controller
                 'judul'         => 'required|string|max:255',
                 'deskripsi'     => 'required|string',
                 'tanggal_waktu' => 'required|date',
-                'lokasi'        => 'required|string|max:255',
+                'lokasi_id'     => 'required|exists:lokasis,id',
                 'kategori_id'   => 'required|exists:kategoris,id',
                 'gambar'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -110,7 +113,7 @@ class EventController extends Controller
     public function destroy(string $id)
     {
         $event = Event::findOrFail($id);
-        
+
         // Hapus gambar fisik dari folder
         if ($event->gambar && file_exists(public_path('images/events/' . $event->gambar))) {
             unlink(public_path('images/events/' . $event->gambar));

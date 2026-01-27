@@ -1,5 +1,5 @@
 <x-layouts.admin title="Manajemen Kategori">
-   
+
     @if (session('success'))
         <div class="toast toast-top toast-end z-50">
             <div class="alert alert-success text-white">
@@ -38,14 +38,14 @@
                             <td class="font-medium">{{ $category->nama }}</td>
                             <td class="text-center">
                                 <div class="flex justify-center gap-2">
-                                    <button class="btn btn-sm btn-warning btn-outline" 
-                                            onclick="openEditModal(this)" 
-                                            data-id="{{ $category->id }}" 
+                                    <button class="btn btn-sm btn-warning btn-outline"
+                                            onclick="openEditModal(this)"
+                                            data-id="{{ $category->id }}"
                                             data-nama="{{ $category->nama }}">
                                         Edit
                                     </button>
-                                    <button class="btn btn-sm btn-error btn-outline" 
-                                            onclick="openDeleteModal(this)" 
+                                    <button class="btn btn-sm btn-error btn-outline"
+                                            onclick="openDeleteModal(this)"
                                             data-id="{{ $category->id }}">
                                         Hapus
                                     </button>
@@ -54,8 +54,15 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center py-8 text-gray-500">
-                                Belum ada data kategori.
+                            <td colspan="4" class="text-center py-8 text-gray-500">
+                                <div class="flex flex-col items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300 mb-4" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 3a3 3 0 1 0 6 0a3 3 0 1 0-6 0" />
+                                    </svg>
+                                    <h3 class="text-xl font-semibold text-gray-700">Belum Ada Kategori</h3>
+                                    <p class="text-gray-500 mt-2">Mulai dengan menambahkan kategori baru</p>
+                                </div>
                             </td>
                         </tr>
                     @endforelse
@@ -89,7 +96,7 @@
             <form method="POST" id="editForm">
                 @csrf
                 @method('PUT')
-                
+
                 <input type="hidden" name="category_id" id="edit_category_id">
 
                 <div class="form-control w-full mb-4">
@@ -110,11 +117,11 @@
         <div class="modal-box">
             <h3 class="font-bold text-lg text-red-600 mb-4">Konfirmasi Hapus</h3>
             <p>Apakah Anda yakin ingin menghapus kategori ini? Tindakan ini tidak dapat dibatalkan.</p>
-            
+
             <form method="POST" id="deleteForm" class="mt-6">
                 @csrf
                 @method('DELETE')
-                
+
                 <input type="hidden" name="category_id" id="delete_category_id">
 
                 <div class="modal-action">
@@ -129,7 +136,7 @@
         function openEditModal(button) {
             const id = button.dataset.id;
             const name = button.dataset.nama;
-            
+
             // Isi data ke dalam form modal
             document.getElementById("edit_category_id").value = id;
             document.getElementById("edit_category_name").value = name;
@@ -144,9 +151,9 @@
 
         function openDeleteModal(button) {
             const id = button.dataset.id;
-            
+
             document.getElementById("delete_category_id").value = id;
-            
+
             // Update Action URL Form
             document.getElementById("deleteForm").action = "{{ url('admin/categories') }}/" + id;
 

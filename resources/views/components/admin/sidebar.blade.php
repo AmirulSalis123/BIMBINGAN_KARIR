@@ -25,10 +25,21 @@
                 </a>
             </li>
 
+            <li class="{{ request()->routeIs('admin.lokasis.*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                <a href="{{ route('admin.lokasis.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Lokasi">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 21s-6-5.686-6-10a6 6 0 1 1 12 0c0 4.314-6 10-6 10z" />
+                    <circle cx="12" cy="11" r="2.5" fill="currentColor"/>
+                    </svg>
+                    <span class="is-drawer-close:hidden">Manajemen Lokasi</span>
+                </a>
+            </li>
+
             <li class="{{ request()->routeIs('admin.events.*') ? 'bg-gray-200 rounded-lg' : '' }}">
                 <a href="{{ route('admin.events.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Event">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                     <span class="is-drawer-close:hidden">Manajemen Event</span>
                 </a>
@@ -37,7 +48,7 @@
             <li class="{{ request()->routeIs('admin.tikets.*') ? 'bg-gray-200 rounded-lg' : '' }}">
                 <a href="{{ route('admin.tikets.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Tipe Tiket">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4zm6-4v16" />
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2" />
                     </svg>
                     <span class="is-drawer-close:hidden">Manajemen Tiket</span>
                 </a>

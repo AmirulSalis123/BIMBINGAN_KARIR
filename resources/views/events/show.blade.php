@@ -12,22 +12,22 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div class="lg:col-span-2 space-y-8">
-        
+
         <div class="card bg-base-100 shadow-xl border border-gray-100 overflow-hidden">
           <figure class="max-h-[400px]">
-            <img src="{{ $event->gambar ? asset('images/events/' . $event->gambar) : 'https://placehold.co/800x400?text=No+Image' }}" 
-                 alt="{{ $event->judul }}" 
+            <img src="{{ $event->gambar ? asset('images/events/' . $event->gambar) : 'https://placehold.co/800x400?text=No+Image' }}"
+                 alt="{{ $event->judul }}"
                  class="w-full h-full object-cover" />
           </figure>
           <div class="card-body">
             <h1 class="text-3xl font-extrabold text-gray-900">{{ $event->judul }}</h1>
-            
+
             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mt-2">
               <div class="flex items-center gap-1">
                 📅 {{ \Carbon\Carbon::parse($event->tanggal_waktu)->locale('id')->translatedFormat('d F Y, H:i') }}
               </div>
               <div class="flex items-center gap-1">
-                📍 {{ $event->lokasi }}
+                📍 {{ $event->lokasi?->nama ?? 'Lokasi tidak tersedia' }}
               </div>
             </div>
 
@@ -37,7 +37,7 @@
             </div>
 
             <div class="divider"></div>
-            
+
             <h3 class="font-bold text-lg mb-2">Deskripsi</h3>
             <p class="text-gray-700 leading-relaxed whitespace-pre-line">{{ $event->deskripsi }}</p>
           </div>
@@ -50,7 +50,7 @@
             <div class="space-y-4">
               @forelse($event->tikets as $tiket)
               <div class="card card-side bg-base-200/50 border border-base-200 p-4 items-center flex-col sm:flex-row gap-4">
-                
+
                 <div class="flex-1 w-full">
                   <h4 class="font-bold text-lg text-blue-900">{{ $tiket->tipe }}</h4>
                   <p class="text-sm text-gray-500">{{ $tiket->keterangan ?? 'Tiket masuk event.' }}</p>
@@ -126,7 +126,7 @@
     <dialog id="checkout_modal" class="modal">
       <div class="modal-box">
         <h3 class="font-bold text-lg mb-4">Konfirmasi Pembelian</h3>
-        
+
         <div class="bg-gray-50 p-4 rounded-lg space-y-2 text-sm mb-4">
           <div id="modalItems" class="space-y-2">
             <p class="text-gray-500">Memuat item...</p>
@@ -196,7 +196,7 @@
           if (!input) return;
 
           const qty = parseInt(input.value) || 0;
-          
+
           // Update Subtotal per tiket
           const subtotalEl = document.getElementById(`subtotal-${t.id}`);
           if(subtotalEl) subtotalEl.textContent = formatRupiah(qty * t.price);
@@ -282,7 +282,7 @@
               Object.values(tickets).forEach(t => {
                   const qtyInput = document.getElementById('qty-' + t.id);
                   const qty = Number(qtyInput ? qtyInput.value : 0);
-                  
+
                   if (qty > 0) {
                       items.push({ tiket_id: t.id, jumlah: qty });
                   }
@@ -305,9 +305,9 @@
                           'Accept': 'application/json',
                           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                       },
-                      body: JSON.stringify({ 
-                          event_id: {{ $event->id }}, 
-                          items: items 
+                      body: JSON.stringify({
+                          event_id: {{ $event->id }},
+                          items: items
                       })
                   });
 
@@ -323,14 +323,14 @@
               } catch (error) {
                   console.error(error);
                   alert('Terjadi kesalahan: ' + error.message);
-                  
+
                   // Reset tombol jika gagal
                   confirmBtn.removeAttribute('disabled');
                   confirmBtn.textContent = 'Ya, Bayar';
               }
           });
       }
-      
+
       // Inisialisasi awal
       updateUI();
     });

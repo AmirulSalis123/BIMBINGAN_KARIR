@@ -12,8 +12,8 @@ class Event extends Model
     protected $fillable = [
         'judul',          // <--- Ganti 'nama' jadi 'judul' (sesuai form & controller)
         'deskripsi',
-        'tanggal_waktu',  // <--- Ganti 'tanggal' jadi 'tanggal_waktu'
-        'lokasi',
+        'tanggal_waktu',  // <--- Ganti 'tanggal' jadi 'tanggal_waktu'    // HARUS ADA
+        'lokasi_id',
         'gambar',
         'kategori_id',
         'user_id',        // <--- SUDAH BENAR (Wajib ada)
@@ -41,5 +41,10 @@ class Event extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'lokasi_id');
     }
 }

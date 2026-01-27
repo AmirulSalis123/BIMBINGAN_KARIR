@@ -44,7 +44,7 @@
           </p>
 
           <p class="text-sm">
-              📍 {{ $location }}
+              📍 {{ $location ?? 'Lokasi tidak tersedia' }}
           </p>
 
           <p class="font-bold text-lg mt-2">

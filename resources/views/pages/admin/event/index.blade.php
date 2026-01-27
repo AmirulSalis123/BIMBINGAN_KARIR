@@ -74,7 +74,13 @@
                                     {{ \Carbon\Carbon::parse($event->tanggal_waktu)->format('H:i') }}
                                 </div>
                             </td>
-                            <td class="text-sm">{{ Str::limit($event->lokasi, 30) }}</td>
+                            <td class="text-sm">
+                                @if($event->lokasi)
+                                    {{ Str::limit($event->lokasi->nama, 30) }}
+                                @else
+                                    <span class="text-gray-400">Belum ada lokasi</span>
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <div class="flex justify-center gap-2">
                                     <a href="{{ route('admin.events.show', $event->id) }}"
@@ -106,18 +112,17 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="7" class="text-center py-12">
-                                <div class="flex flex-col items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                    <h3 class="text-xl font-semibold text-gray-700 mt-4">Belum Ada Event</h3>
-                                    <p class="text-gray-500 mt-2">Mulai dengan menambahkan event baru</p>
-                                    <a href="{{ route('admin.events.create') }}" class="btn btn-primary mt-4">Tambah Event</a>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="7" class="text-center py-8 text-gray-500">
+                            <div class="flex flex-col items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <h3 class="text-xl font-semibold text-gray-700">Belum Ada Event</h3>
+                                <p class="text-gray-500 mt-2">Mulai dengan menambahkan event baru</p>
+                            </div>
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

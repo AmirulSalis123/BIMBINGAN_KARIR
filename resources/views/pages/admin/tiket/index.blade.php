@@ -47,7 +47,6 @@
                     <tr>
                         <th class="w-16">No</th>
                         <th>Nama Tiket</th>
-                        <th>Tanggal Dibuat</th>
                         <th class="w-48 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -56,7 +55,6 @@
                         <tr class="hover">
                             <th>{{ $ticketTypes->firstItem() + $index }}</th>
                             <td class="font-medium">{{ $ticketType->name }}</td>
-                            <td>{{ $ticketType->created_at->format('d M Y, H:i') }}</td>
                             <td class="text-center">
                                 <div class="flex justify-center gap-2">
                                     <button class="btn btn-sm btn-warning btn-outline"
@@ -83,8 +81,9 @@
                         <tr>
                             <td colspan="4" class="text-center py-8 text-gray-500">
                                 <div class="flex flex-col items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300 mb-4" viewBox="0 0 24 24">
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2" />
                                     </svg>
                                     <h3 class="text-xl font-semibold text-gray-700">Belum Ada Tiket</h3>
                                     <p class="text-gray-500 mt-2">Mulai dengan menambahkan tiket baru</p>

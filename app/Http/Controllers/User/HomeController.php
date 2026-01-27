@@ -18,7 +18,8 @@ class HomeController extends Controller
         $categories = Kategori::all();
 
         // 2. Query Event dengan harga tiket termurah
-        $eventsQuery = Event::withMin('tikets', 'harga')
+        $eventsQuery = Event::with(['lokasi', 'kategori'])
+            ->withMin('tikets', 'harga')
             ->orderBy('tanggal_waktu', 'asc');
 
         // 3. Filter jika ada parameter kategori di URL

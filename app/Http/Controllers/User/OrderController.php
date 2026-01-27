@@ -17,12 +17,14 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         $orders = Order::where('user_id', $user->id)
-            ->with('event')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        
+        ->with(['event' => function($query) {
+            $query->with(['lokasi']);
+        }])
+        ->orderBy('created_at', 'desc')
+        ->get();
+
         return view('orders.index', compact('orders'));
     }
 
@@ -58,7 +60,7 @@ class OrderController extends Controller
                 foreach ($data['items'] as $it) {
                     //Fungsinya untuk mengunci baris data tiket tersebut di database sementara waktu. Jika ada dua user membeli tiket terakhir secara bersamaan, sistem akan memprosesnya antrean satu per satu untuk mencegah stok menjadi minus.
                     $t = Tiket::lockForUpdate()->findOrFail($it['tiket_id']);
-                    
+
                     if ($t->stok < $it['jumlah']) {
                         throw new \Exception("Stok tidak cukup untuk tiket: {$t->tipe}");
                     }
@@ -71,7 +73,7 @@ class OrderController extends Controller
                     'event_id'    => $data['event_id'],
                     'order_date'  => Carbon::now(),
                     'total_harga' => $total,
-                    'status'      => 'success', 
+                    'status'      => 'success',
                 ]);
 
                 // Simpan Detail & Kurangi Stok
@@ -96,10 +98,10 @@ class OrderController extends Controller
 
             // 3. Response Sukses
             session()->flash('success', 'Pesanan berhasil dibuat! Terima kasih.');
-            
+
             return response()->json([
-                'ok' => true, 
-                'order_id' => $order->id, 
+                'ok' => true,
+                'order_id' => $order->id,
                 'redirect' => route('orders.index')
             ]);
 

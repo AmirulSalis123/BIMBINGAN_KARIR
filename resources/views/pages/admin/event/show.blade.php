@@ -32,9 +32,11 @@
 
                         <div class="form-control">
                             <label class="label font-semibold">Lokasi</label>
-                            <input type="text" class="input input-bordered w-full bg-gray-100" value="{{ $event->lokasi }}" disabled />
+                            <input type="text" class="input input-bordered w-full bg-gray-100"
+                                value="{{ $event->lokasi ? $event->lokasi->nama : 'Tidak ada lokasi' }}"
+                                disabled />
                         </div>
-                        
+
                         <div class="form-control">
                             <label class="label font-semibold">Deskripsi</label>
                             <textarea class="textarea textarea-bordered h-24 bg-gray-100" disabled>{{ $event->deskripsi }}</textarea>
@@ -81,15 +83,15 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-warning btn-outline mr-2" 
+                                        <button class="btn btn-sm btn-warning btn-outline mr-2"
                                             onclick="openEditModal(this)"
-                                            data-id="{{ $ticket->id }}" 
+                                            data-id="{{ $ticket->id }}"
                                             data-tipe="{{ $ticket->tipe }}"
                                             data-harga="{{ $ticket->harga }}"
                                             data-stok="{{ $ticket->stok }}">
                                             Edit
                                         </button>
-                                        <button class="btn btn-sm btn-error btn-outline" 
+                                        <button class="btn btn-sm btn-error btn-outline"
                                             onclick="openDeleteModal(this)"
                                             data-id="{{ $ticket->id }}">
                                             Hapus
@@ -202,14 +204,14 @@
             const stok = button.dataset.stok;
 
             const form = document.getElementById('editTicketForm');
-            
+
             document.getElementById("edit_tipe").value = tipe;
             document.getElementById("edit_harga").value = harga;
             document.getElementById("edit_stok").value = stok;
 
             // Set action URL secara dinamis
             form.action = `{{ url('admin/tickets') }}/${id}`;
-            
+
             edit_ticket_modal.showModal();
         }
 
@@ -219,7 +221,7 @@
 
             // Set action URL secara dinamis
             form.action = `{{ url('admin/tickets') }}/${id}`;
-            
+
             delete_modal.showModal();
         }
     </script>

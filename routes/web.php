@@ -12,7 +12,8 @@ use App\Http\Controllers\Admin\TiketController;
 use App\Http\Controllers\Admin\HistoriesController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\Admin\TicketTypeController;
-use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\Admin\PembayaranController;
+use App\Http\Controllers\Admin\LokasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::resource('tikets', TicketTypeController::class);
 
         Route::resource('pembayarans', PembayaranController::class);
+
+        Route::resource('lokasis', LokasiController::class);
     });
 
 /*

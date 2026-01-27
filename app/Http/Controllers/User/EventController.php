@@ -11,7 +11,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         // Ambil event beserta relasinya (tiket, kategori, user/penyelenggara)
-        $event->load(['tikets', 'kategori', 'user']);
+        $event->load(['tikets', 'kategori', 'user', 'lokasi']);
 
         return view('events.show', compact('event'));
     }
