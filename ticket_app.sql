@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Jan 2026 pada 18.13
+-- Waktu pembuatan: 27 Jan 2026 pada 21.42
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -61,6 +61,13 @@ CREATE TABLE `detail_orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `detail_orders`
+--
+
+INSERT INTO `detail_orders` (`id`, `order_id`, `tiket_id`, `jumlah`, `subtotal_harga`, `created_at`, `updated_at`) VALUES
+(2, 4, 5, 1, 1500000.00, '2026-01-27 13:32:39', '2026-01-27 13:32:39');
+
 -- --------------------------------------------------------
 
 --
@@ -85,8 +92,9 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `user_id`, `kategori_id`, `lokasi_id`, `judul`, `deskripsi`, `gambar`, `tanggal_waktu`, `created_at`, `updated_at`) VALUES
-(4, 1, 1, 1, 'sejarah', 'aku', '1769529004.png', '2026-01-27 01:53:00', '2026-01-27 08:50:04', '2026-01-27 08:50:04'),
-(5, 1, 2, 2, 'ppp', 'aa', '1769529575.png', '2026-01-27 01:02:00', '2026-01-27 08:59:35', '2026-01-27 08:59:35');
+(7, 1, 4, 4, 'Konser Musik Rock', 'Nikmati malam penuh energi dengan band rock terkenal.', 'konser_rock.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27'),
+(8, 1, 5, 3, 'Pameran Seni Kontemporer', 'Jelajahi karya seni modern dari seniman lokal dan internasional.', 'pameran_seni.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27'),
+(9, 1, 6, 5, 'Festival Makanan Internasional', 'Cicipi berbagai hidangan lezat dari seluruh dunia.', 'festival_makanan.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27');
 
 -- --------------------------------------------------------
 
@@ -157,9 +165,9 @@ CREATE TABLE `kategoris` (
 --
 
 INSERT INTO `kategoris` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(1, 'Konser', '2026-01-25 23:52:22', '2026-01-25 23:52:22'),
-(2, 'Seminar', '2026-01-25 23:52:22', '2026-01-25 23:52:22'),
-(3, 'Workshop', '2026-01-25 23:52:22', '2026-01-25 23:52:22');
+(4, 'Konser', '2026-01-27 13:15:49', '2026-01-27 13:15:49'),
+(5, 'Seminar', '2026-01-27 13:16:00', '2026-01-27 13:16:00'),
+(6, 'Workshop', '2026-01-27 13:16:14', '2026-01-27 13:16:14');
 
 -- --------------------------------------------------------
 
@@ -179,8 +187,9 @@ CREATE TABLE `lokasis` (
 --
 
 INSERT INTO `lokasis` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(1, 'aku', '2026-01-27 08:49:41', '2026-01-27 08:49:41'),
-(2, 'dia', '2026-01-27 08:59:05', '2026-01-27 08:59:05');
+(3, 'Stadion Utama', '2026-01-27 13:16:32', '2026-01-27 13:16:32'),
+(4, 'Galeri Seni Kota', '2026-01-27 13:16:41', '2026-01-27 13:16:41'),
+(5, 'Taman Kota', '2026-01-27 13:16:50', '2026-01-27 13:16:50');
 
 -- --------------------------------------------------------
 
@@ -231,6 +240,15 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `event_id`, `order_date`, `total_harga`, `status`, `created_at`, `updated_at`) VALUES
+(4, 2, 7, '2026-01-27 20:32:39', 1500000.00, 'success', '2026-01-27 13:32:39', '2026-01-27 13:32:39'),
+(5, 2, 8, '2026-01-27 20:32:39', 200000.00, 'success', '2026-01-27 13:32:39', '2026-01-27 13:32:39'),
+(6, 2, 9, '2026-01-27 20:32:39', 600000.00, 'success', '2026-01-27 13:32:39', '2026-01-27 13:32:39');
+
 -- --------------------------------------------------------
 
 --
@@ -261,7 +279,7 @@ CREATE TABLE `pembayarans` (
 --
 
 INSERT INTO `pembayarans` (`id`, `nama_pembayaran`, `created_at`, `updated_at`) VALUES
-(1, 'dana', '2026-01-25 23:52:02', '2026-01-25 23:52:02');
+(2, 'dana', '2026-01-27 13:20:59', '2026-01-27 13:20:59');
 
 -- --------------------------------------------------------
 
@@ -283,7 +301,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('44dGHFhA2T1gw5puUuUIeiBqTFaB4mh4qtOOAbB0', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMkw1V3VzdUFEU3VEZ0ZLbGdBVzRqM0ZKVldKcmFWR3M4azBhU0trVSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi90aWtldHMiO3M6NToicm91dGUiO3M6MTg6ImFkbWluLnRpa2V0cy5pbmRleCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1769533743);
+('6onKczrxikn9Ke1pUcrmn8cUvszIqyGmtKP3yhJU', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSk1HUG50WHZIR3BES1hva1dXZXRKcGY0c21JTXg4VmxidHljTjVEVCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbiI7czo1OiJyb3V0ZSI7czoxNToiYWRtaW4uZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1769546115);
 
 -- --------------------------------------------------------
 
@@ -303,7 +321,8 @@ CREATE TABLE `ticket_types` (
 --
 
 INSERT INTO `ticket_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'vip', '2026-01-25 23:51:55', '2026-01-25 23:51:55');
+(2, 'premium', '2026-01-27 13:17:41', '2026-01-27 13:17:41'),
+(3, 'leguler', '2026-01-27 13:17:58', '2026-01-27 13:17:58');
 
 -- --------------------------------------------------------
 
@@ -320,6 +339,16 @@ CREATE TABLE `tikets` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `tikets`
+--
+
+INSERT INTO `tikets` (`id`, `event_id`, `tipe`, `harga`, `stok`, `created_at`, `updated_at`) VALUES
+(5, 7, 'Premium', 1500000.00, 99, '2026-01-27 13:28:13', '2026-01-27 13:32:39'),
+(6, 7, 'reguler', 500000.00, 500, '2026-01-27 13:28:13', '2026-01-27 13:28:13'),
+(7, 8, 'premium', 200000.00, 300, '2026-01-27 13:28:13', '2026-01-27 13:28:13'),
+(8, 9, 'premium', 300000.00, 198, '2026-01-27 13:28:13', '2026-01-27 13:28:13');
 
 -- --------------------------------------------------------
 
@@ -477,13 +506,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `detail_orders`
 --
 ALTER TABLE `detail_orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -501,13 +530,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `kategoris`
 --
 ALTER TABLE `kategoris`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `lokasis`
 --
 ALTER TABLE `lokasis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -519,25 +548,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `pembayarans`
 --
 ALTER TABLE `pembayarans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `ticket_types`
 --
 ALTER TABLE `ticket_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `tikets`
 --
 ALTER TABLE `tikets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
