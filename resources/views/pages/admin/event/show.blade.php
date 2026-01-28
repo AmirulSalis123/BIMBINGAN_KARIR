@@ -11,7 +11,14 @@
 
         <div class="card bg-white shadow-sm mb-10">
             <div class="card-body">
-                <h2 class="card-title text-2xl mb-6">Detail Event</h2>
+                <h2 class="card-title text-2xl mb-6 flex items-center">
+                    <a href="{{ route('admin.events.index') }}" class="mr-3 text-gray-600 hover:text-gray-900">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                    Detail Event
+                </h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-4">
@@ -209,7 +216,6 @@
             document.getElementById("edit_harga").value = harga;
             document.getElementById("edit_stok").value = stok;
 
-            // Set action URL secara dinamis
             form.action = `{{ url('admin/tickets') }}/${id}`;
 
             edit_ticket_modal.showModal();
@@ -219,7 +225,6 @@
             const id = button.dataset.id;
             const form = document.getElementById('deleteTicketForm');
 
-            // Set action URL secara dinamis
             form.action = `{{ url('admin/tickets') }}/${id}`;
 
             delete_modal.showModal();

@@ -1,7 +1,16 @@
 <x-layouts.admin title="Detail Pemesanan">
     <section class="max-w-4xl mx-auto py-12 px-6">
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Detail Pemesanan</h1>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.histories.index') }}"
+                   class="btn btn-ghost btn-circle btn-sm hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                <h1 class="text-2xl font-bold text-gray-800">Detail Pemesanan</h1>
+            </div>
+
             <div class="text-sm text-gray-500">
                 Order #{{ $order->id }} • {{ $order->created_at->format('d M Y H:i') }}
             </div>
@@ -9,12 +18,12 @@
 
         <div class="card bg-base-100 shadow-xl overflow-hidden">
             <div class="lg:flex">
-                
+
                 <div class="lg:w-1/3 p-0 relative">
                     <img
                         src="{{ $order->event && $order->event->gambar ? asset('images/events/' . $order->event->gambar) : 'https://placehold.co/400x600?text=No+Image' }}"
-                        alt="{{ $order->event?->judul ?? 'Event Deleted' }}" 
-                        class="w-full h-full object-cover absolute inset-0" 
+                        alt="{{ $order->event?->judul ?? 'Event Deleted' }}"
+                        class="w-full h-full object-cover absolute inset-0"
                         style="min-height: 300px;"
                     />
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
@@ -27,7 +36,7 @@
 
                 <div class="card-body lg:w-2/3 bg-white">
                     <h3 class="font-bold text-lg mb-4 text-gray-700 border-b pb-2">Rincian Tiket</h3>
-                    
+
                     <div class="space-y-4">
                         @foreach($order->detailOrders as $detail)
                             <div class="flex justify-between items-start">
@@ -48,7 +57,7 @@
                         <span class="font-bold text-gray-600">Total Pembayaran</span>
                         <span class="font-bold text-2xl text-primary">Rp {{ number_format($order->total_harga, 0, ',', '.') }}</span>
                     </div>
-                    
+
                     <div class="bg-gray-50 p-4 rounded-lg mb-6">
                         <div class="text-sm text-gray-500 mb-1">Pembeli</div>
                         <div class="font-bold text-gray-800">{{ $order->user->name }}</div>

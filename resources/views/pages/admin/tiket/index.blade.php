@@ -33,7 +33,7 @@
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">Manajemen Tiket</h1>
             </div>
-            <button class="btn btn-primary" onclick="add_modal.showModal()">
+            <button class="btn btn-primary" onclick="openAddModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
@@ -105,44 +105,65 @@
     <dialog id="add_modal" class="modal">
         <div class="modal-box">
             <h3 class="font-bold text-lg mb-4">Tambah Tiket Baru</h3>
-            <form method="POST" action="{{ route('admin.tikets.store') }}">
+            <form method="POST" action="{{ route('admin.tikets.store') }}" id="addForm">
                 @csrf
                 <div class="form-control w-full mb-4">
                     <label class="label">
                         <span class="label-text font-semibold">Nama Tiket</span>
                     </label>
-                    <input type="text" name="name" placeholder="Contoh: Tiket Reguler" class="input input-bordered w-full" required />
+                    <input type="text" name="name" id="add_name" placeholder="Contoh: Tiket Reguler"
+                           class="input input-bordered w-full @error('name') input-error @enderror"
+                           value="" required />
+                    @error('name')
+                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="modal-action">
-                    <button type="button" class="btn" onclick="add_modal.close()">Batal</button>
+                    <button type="button" class="btn" onclick="closeAddModal()">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
+
+        <form method="dialog" class="modal-backdrop">
+            <button onclick="closeAddModal()">close</button>
+        </form>
     </dialog>
 
-    <dialog id="edit_modal" class="modal">
-        <div class="modal-box">
-            <h3 class="font-bold text-lg mb-4">Edit Tiket</h3>
-            <form method="POST" id="editForm">
-                @csrf
-                @method('PUT')
+<dialog id="edit_modal" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg mb-4">Edit Tiket</h3>
+        <form method="POST" id="editForm">
+            @csrf
+            @method('PUT')
 
-                <input type="hidden" name="ticket_type_id" id="edit_ticket_type_id">
+            <input type="hidden" name="ticket_type_id" id="edit_ticket_type_id">
 
-                <div class="form-control w-full mb-4">
-                    <label class="label">
-                        <span class="label-text font-semibold">Nama Tiket</span>
-                    </label>
-                    <input type="text" name="name" id="edit_ticket_type_name" class="input input-bordered w-full" required />
-                </div>
-                <div class="modal-action">
-                    <button type="button" class="btn" onclick="edit_modal.close()">Batal</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-            </form>
-        </div>
-    </dialog>
+            <div class="form-control w-full mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">Nama Tiket</span>
+                </label>
+                <input type="text" name="name" id="edit_ticket_type_name"
+                       class="input input-bordered w-full @error('name') input-error @enderror"
+                       value="{{ $errors->has('name') && $errors->has('_method') ? old('name') : '' }}"
+                       required />
+                @error('name')
+                    @if($errors->has('_method'))
+                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                    @endif
+                @enderror
+            </div>
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="closeEditModal()">Batal</button>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
+    </div>
+
+    <form method="dialog" class="modal-backdrop">
+        <button onclick="closeEditModal()">close</button>
+    </form>
+</dialog>
 
     <dialog id="delete_modal" class="modal">
         <div class="modal-box">
@@ -164,9 +185,49 @@
     </dialog>
 
     <script>
+        let hasServerError = false;
+
+        function openAddModal() {
+            if (!hasServerError) {
+                resetAddModal();
+            }
+            add_modal.showModal();
+        }
+
+        function closeAddModal() {
+            if (!hasServerError) {
+                resetAddModal();
+            }
+            add_modal.close();
+            hasServerError = false;
+        }
+
+        function resetAddModal() {
+            const inputField = document.getElementById('add_name');
+            if (inputField) {
+                inputField.value = '';
+            }
+
+            const errorMessages = document.querySelectorAll('#addForm .text-red-500');
+            errorMessages.forEach(msg => msg.remove());
+
+            const errorInputs = document.querySelectorAll('#addForm .input-error');
+            errorInputs.forEach(input => input.classList.remove('input-error'));
+
+            const form = document.getElementById('addForm');
+            if (form) {
+                form.reset();
+            }
+        }
+
         function openEditModal(button) {
             const id = button.dataset.id;
             const name = button.dataset.name;
+
+            const errorMessages = document.querySelectorAll('#editForm .text-red-500');
+            errorMessages.forEach(msg => msg.remove());
+            const errorInputs = document.querySelectorAll('#editForm .input-error');
+            errorInputs.forEach(input => input.classList.remove('input-error'));
 
             document.getElementById("edit_ticket_type_id").value = id;
             document.getElementById("edit_ticket_type_name").value = name;
@@ -174,6 +235,10 @@
             document.getElementById("editForm").action = "{{ url('admin/tikets') }}/" + id;
 
             edit_modal.showModal();
+        }
+
+        function closeEditModal() {
+            edit_modal.close();
         }
 
         function openDeleteModal(button) {
@@ -185,5 +250,45 @@
 
             delete_modal.showModal();
         }
+
+        document.getElementById('add_modal').addEventListener('close', function() {
+            setTimeout(function() {
+                if (!hasServerError) {
+                    resetAddModal();
+                }
+            }, 100);
+        });
+
+        document.getElementById('add_modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeAddModal();
+            }
+        });
+
+        document.getElementById('edit_modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeEditModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasAddError = document.querySelectorAll('#addForm .text-red-500').length > 0;
+
+            if (hasAddError) {
+                hasServerError = true;
+                add_modal.showModal();
+            } else {
+                resetAddModal();
+            }
+
+            const hasEditError = document.querySelectorAll('#editForm .text-red-500').length > 0;
+            if (hasEditError) {
+                edit_modal.showModal();
+            }
+        });
+
+        document.getElementById('addForm').addEventListener('submit', function() {
+            hasServerError = false;
+        });
     </script>
 </x-layouts.admin>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Jan 2026 pada 21.42
+-- Waktu pembuatan: 28 Jan 2026 pada 21.14
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -92,9 +92,9 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `user_id`, `kategori_id`, `lokasi_id`, `judul`, `deskripsi`, `gambar`, `tanggal_waktu`, `created_at`, `updated_at`) VALUES
-(7, 1, 4, 4, 'Konser Musik Rock', 'Nikmati malam penuh energi dengan band rock terkenal.', 'konser_rock.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27'),
-(8, 1, 5, 3, 'Pameran Seni Kontemporer', 'Jelajahi karya seni modern dari seniman lokal dan internasional.', 'pameran_seni.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27'),
-(9, 1, 6, 5, 'Festival Makanan Internasional', 'Cicipi berbagai hidangan lezat dari seluruh dunia.', 'festival_makanan.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27');
+(7, 1, 4, NULL, 'Konser Musik Rock', 'Nikmati malam penuh energi dengan band rock terkenal.', 'konser_rock.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27'),
+(8, 1, 5, NULL, 'Pameran Seni Kontemporer', 'Jelajahi karya seni modern dari seniman lokal dan internasional.', 'pameran_seni.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27'),
+(9, 1, 6, NULL, 'Festival Makanan Internasional', 'Cicipi berbagai hidangan lezat dari seluruh dunia.', 'festival_makanan.jpg', '2026-01-20 05:24:00', '2026-01-27 13:21:27', '2026-01-27 13:21:27');
 
 -- --------------------------------------------------------
 
@@ -187,9 +187,9 @@ CREATE TABLE `lokasis` (
 --
 
 INSERT INTO `lokasis` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(3, 'Stadion Utama', '2026-01-27 13:16:32', '2026-01-27 13:16:32'),
-(4, 'Galeri Seni Kota', '2026-01-27 13:16:41', '2026-01-27 13:16:41'),
-(5, 'Taman Kota', '2026-01-27 13:16:50', '2026-01-27 13:16:50');
+(7, 'Stadion Utama', '2026-01-28 04:57:47', '2026-01-28 04:57:47'),
+(8, 'Galeri Seni Kota', '2026-01-28 04:57:47', '2026-01-28 04:57:47'),
+(9, 'Taman Kota', '2026-01-28 04:57:47', '2026-01-28 04:57:47');
 
 -- --------------------------------------------------------
 
@@ -279,7 +279,7 @@ CREATE TABLE `pembayarans` (
 --
 
 INSERT INTO `pembayarans` (`id`, `nama_pembayaran`, `created_at`, `updated_at`) VALUES
-(2, 'dana', '2026-01-27 13:20:59', '2026-01-27 13:20:59');
+(3, 'dana', '2026-01-28 11:11:02', '2026-01-28 11:12:24');
 
 -- --------------------------------------------------------
 
@@ -301,7 +301,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('6onKczrxikn9Ke1pUcrmn8cUvszIqyGmtKP3yhJU', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSk1HUG50WHZIR3BES1hva1dXZXRKcGY0c21JTXg4VmxidHljTjVEVCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbiI7czo1OiJyb3V0ZSI7czoxNToiYWRtaW4uZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1769546115);
+('QrCoQJ4wYTc6bxV8yfESek9lubDAFCD4q5r7ASGX', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiUDlsV0ZnRFRnNUhKMDlORTZpU001b3pFOU1ibmxIUmRRU0xWMTI4cyI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjI3OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4iO3M6NToicm91dGUiO3M6MTU6ImFkbWluLmRhc2hib2FyZCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoxNDoiZGVidWdfbGFzdF91cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9ldmVudHMvMTEvZWRpdCI7fQ==', 1769631226);
 
 -- --------------------------------------------------------
 
@@ -512,7 +512,7 @@ ALTER TABLE `detail_orders`
 -- AUTO_INCREMENT untuk tabel `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -530,13 +530,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `kategoris`
 --
 ALTER TABLE `kategoris`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `lokasis`
 --
 ALTER TABLE `lokasis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -554,7 +554,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT untuk tabel `pembayarans`
 --
 ALTER TABLE `pembayarans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `ticket_types`

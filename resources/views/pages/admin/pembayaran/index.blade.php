@@ -17,7 +17,7 @@
     <div class="container mx-auto px-4 py-6">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-bold text-gray-800">Manajemen Tipe Pembayaran</h1>
-            <button class="btn btn-primary" onclick="add_modal.showModal()">
+            <button class="btn btn-primary" onclick="openAddModal()">
                 + Tambah Tipe Pembayaran
             </button>
         </div>
@@ -82,20 +82,30 @@
     <dialog id="add_modal" class="modal">
         <div class="modal-box">
             <h3 class="font-bold text-lg mb-4">Tambah Tipe Pembayaran Baru</h3>
-            <form method="POST" action="{{ route('admin.pembayarans.store') }}">
+            <form method="POST" action="{{ route('admin.pembayarans.store') }}" id="addForm">
                 @csrf
                 <div class="form-control w-full mb-4">
                     <label class="label">
                         <span class="label-text font-semibold">Nama Tipe Pembayaran</span>
                     </label>
-                    <input type="text" name="nama_pembayaran" placeholder="Contoh: Transfer Bank" class="input input-bordered w-full" required />
+                    <input type="text" name="nama_pembayaran" id="add_nama_pembayaran"
+                           placeholder="Contoh: Transfer Bank"
+                           class="input input-bordered w-full @error('nama_pembayaran') input-error @enderror"
+                           value="" required />
+                    @error('nama_pembayaran')
+                        <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="modal-action">
-                    <button type="button" class="btn" onclick="add_modal.close()">Batal</button>
+                    <button type="button" class="btn" onclick="closeAddModal()">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
+
+        <form method="dialog" class="modal-backdrop">
+            <button onclick="closeAddModal()">close</button>
+        </form>
     </dialog>
 
     <dialog id="edit_modal" class="modal">
@@ -111,14 +121,19 @@
                     <label class="label">
                         <span class="label-text font-semibold">Nama Tipe Pembayaran</span>
                     </label>
-                    <input type="text" name="nama_pembayaran" id="edit_pembayaran_name" class="input input-bordered w-full" required />
+                    <input type="text" name="nama_pembayaran" id="edit_pembayaran_name"
+                           class="input input-bordered w-full" required />
                 </div>
                 <div class="modal-action">
-                    <button type="button" class="btn" onclick="edit_modal.close()">Batal</button>
+                    <button type="button" class="btn" onclick="closeEditModal()">Batal</button>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
         </div>
+
+        <form method="dialog" class="modal-backdrop">
+            <button onclick="closeEditModal()">close</button>
+        </form>
     </dialog>
 
     <dialog id="delete_modal" class="modal">
@@ -141,9 +156,50 @@
     </dialog>
 
     <script>
+        let hasServerError = false;
+
+        function openAddModal() {
+            if (!hasServerError) {
+                resetAddModal();
+            }
+            add_modal.showModal();
+        }
+
+        function closeAddModal() {
+            if (!hasServerError) {
+                resetAddModal();
+            }
+            add_modal.close();
+            hasServerError = false;
+        }
+
+        function resetAddModal() {
+            const inputField = document.getElementById('add_nama_pembayaran');
+            if (inputField) {
+                inputField.value = '';
+            }
+
+            const errorMessages = document.querySelectorAll('#addForm .text-red-500');
+            errorMessages.forEach(msg => msg.remove());
+
+            const errorInputs = document.querySelectorAll('#addForm .input-error');
+            errorInputs.forEach(input => input.classList.remove('input-error'));
+
+            const form = document.getElementById('addForm');
+            if (form) {
+                form.reset();
+            }
+        }
+
         function openEditModal(button) {
             const id = button.dataset.id;
             const name = button.dataset.nama;
+
+            const errorMessages = document.querySelectorAll('#editForm .text-red-500');
+            errorMessages.forEach(msg => msg.remove());
+
+            const errorInputs = document.querySelectorAll('#editForm .input-error');
+            errorInputs.forEach(input => input.classList.remove('input-error'));
 
             document.getElementById("edit_pembayaran_id").value = id;
             document.getElementById("edit_pembayaran_name").value = name;
@@ -151,6 +207,10 @@
             document.getElementById("editForm").action = "{{ url('admin/pembayarans') }}/" + id;
 
             edit_modal.showModal();
+        }
+
+        function closeEditModal() {
+            edit_modal.close();
         }
 
         function openDeleteModal(button) {
@@ -161,6 +221,71 @@
             document.getElementById("deleteForm").action = "{{ url('admin/pembayarans') }}/" + id;
 
             delete_modal.showModal();
+        }
+
+        document.getElementById('add_modal')?.addEventListener('close', function() {
+            setTimeout(function() {
+                if (!hasServerError) {
+                    resetAddModal();
+                }
+            }, 100);
+        });
+
+        document.getElementById('add_modal')?.addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeAddModal();
+            }
+        });
+
+        document.getElementById('edit_modal')?.addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeEditModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasAddError = document.querySelectorAll('#addForm .text-red-500').length > 0;
+
+            if (hasAddError) {
+                hasServerError = true;
+                add_modal.showModal();
+            } else {
+                resetAddModal();
+            }
+
+            const hasEditError = document.querySelectorAll('#editForm .text-red-500').length > 0;
+            if (hasEditError) {
+                edit_modal.showModal();
+            }
+        });
+
+        document.getElementById('addForm')?.addEventListener('submit', function() {
+            hasServerError = false;
+        });
+
+        document.getElementById('editForm')?.addEventListener('submit', function(e) {
+            const nameInput = document.getElementById('edit_pembayaran_name');
+
+            if (!nameInput.value.trim()) {
+                e.preventDefault();
+
+                const existingError = nameInput.parentElement.querySelector('.text-red-500');
+                if (existingError) existingError.remove();
+
+                nameInput.classList.add('input-error');
+
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'text-red-500 text-sm mt-1';
+                errorDiv.textContent = 'Nama tipe pembayaran harus diisi';
+                nameInput.parentElement.appendChild(errorDiv);
+
+                nameInput.focus();
+            }
+        });
+
+        const tambahButton = document.querySelector('button[onclick*="add_modal.showModal"]');
+        if (tambahButton) {
+            tambahButton.setAttribute('onclick', 'openAddModal()');
         }
     </script>
 </x-layouts.admin>

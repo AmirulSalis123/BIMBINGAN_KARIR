@@ -30,29 +30,50 @@ class EventController extends Controller
     // Simpan event baru
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'judul'         => 'required|string|max:255',
-            'deskripsi'     => 'required|string',
-            'tanggal_waktu' => 'required|date',
-            'lokasi_id'     => 'required|exists:lokasis,id',
-            'kategori_id'   => 'required|exists:kategoris,id',
-            'gambar'        => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'judul'         => 'required|string|max:255|unique:events,judul',
+                'deskripsi'     => 'required|string',
+                'tanggal_waktu' => 'required|date',
+                'lokasi_id'     => 'required|exists:lokasis,id',
+                'kategori_id'   => 'required|exists:kategoris,id',
+                'gambar'        => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ], [
+                'judul.required' => 'Judul event wajib diisi.',
+                'judul.max' => 'Judul event maksimal 255 karakter.',
+                'judul.unique' => 'Judul event sudah ada.',
+                'deskripsi.required' => 'Deskripsi event wajib diisi.',
+                'tanggal_waktu.required' => 'Tanggal dan waktu event wajib diisi.',
+                'lokasi_id.required' => 'Lokasi event wajib dipilih.',
+                'kategori_id.required' => 'Kategori event wajib dipilih.',
+                'gambar.required' => 'Gambar event wajib diupload.',
+                'gambar.image' => 'File harus berupa gambar.',
+                'gambar.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau svg.',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB.',
+            ]);
 
-        // Handle Upload Gambar
-        if ($request->hasFile('gambar')) {
-            // Simpan gambar di folder 'public/images/events'
-            $imageName = time() . '.' . $request->gambar->extension();
-            $request->gambar->move(public_path('images/events'), $imageName);
-            $validatedData['gambar'] = $imageName;
+            if ($request->hasFile('gambar')) {
+                $imageName = time() . '.' . $request->gambar->extension();
+                $request->gambar->move(public_path('images/events'), $imageName);
+                $validatedData['gambar'] = $imageName;
+            }
+
+            $validatedData['user_id'] = Auth::id();
+
+            Event::create($validatedData);
+
+            return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->route('admin.events.create')
+                ->withErrors($e->validator)
+                ->withInput();
+
+        } catch (\Exception $e) {
+            return redirect()->route('admin.events.create')
+                ->with('error', 'Gagal menambahkan event: ' . $e->getMessage())
+                ->withInput();
         }
-
-        // Tambahkan user_id (Admin yang buat)
-        $validatedData['user_id'] = Auth::id();
-
-        Event::create($validatedData);
-
-        return redirect()->route('admin.events.index')->with('success', 'Event berhasil ditambahkan.');
     }
 
     // Tampilkan detail event
@@ -81,17 +102,26 @@ class EventController extends Controller
             $event = Event::findOrFail($id);
 
             $validatedData = $request->validate([
-                'judul'         => 'required|string|max:255',
+                'judul'         => 'required|string|max:255|unique:events,judul,' . $id,
                 'deskripsi'     => 'required|string',
                 'tanggal_waktu' => 'required|date',
                 'lokasi_id'     => 'required|exists:lokasis,id',
                 'kategori_id'   => 'required|exists:kategoris,id',
                 'gambar'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ], [
+                'judul.required' => 'Judul event wajib diisi.',
+                'judul.max' => 'Judul event maksimal 255 karakter.',
+                'judul.unique' => 'Judul event sudah ada.',
+                'deskripsi.required' => 'Deskripsi event wajib diisi.',
+                'tanggal_waktu.required' => 'Tanggal dan waktu event wajib diisi.',
+                'lokasi_id.required' => 'Lokasi event wajib dipilih.',
+                'kategori_id.required' => 'Kategori event wajib dipilih.',
+                'gambar.image' => 'File harus berupa gambar.',
+                'gambar.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau svg.',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB.',
             ]);
 
-            // Cek jika ada gambar baru
             if ($request->hasFile('gambar')) {
-                // Hapus gambar lama jika ada (opsional, tapi disarankan agar server tidak penuh)
                 if ($event->gambar && file_exists(public_path('images/events/' . $event->gambar))) {
                     unlink(public_path('images/events/' . $event->gambar));
                 }
@@ -103,9 +133,18 @@ class EventController extends Controller
 
             $event->update($validatedData);
 
-            return redirect()->route('admin.events.index')->with('success', 'Event berhasil diperbarui.');
+            return redirect()->route('admin.events.index')
+                ->with('success', 'Event berhasil diperbarui.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->route('admin.events.edit', $id)
+                ->withErrors($e->validator)
+                ->withInput();
+
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Gagal update: ' . $e->getMessage()]);
+            return redirect()->route('admin.events.edit', $id)
+                ->with('error', 'Gagal update: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -114,7 +153,6 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
 
-        // Hapus gambar fisik dari folder
         if ($event->gambar && file_exists(public_path('images/events/' . $event->gambar))) {
             unlink(public_path('images/events/' . $event->gambar));
         }

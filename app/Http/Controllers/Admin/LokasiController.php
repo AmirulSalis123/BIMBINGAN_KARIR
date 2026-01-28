@@ -61,11 +61,11 @@ class LokasiController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Lokasi $lokasi)
-{
-    $lokasi->delete();
+    {
+        $lokasi->delete();
 
-    return redirect()
-        ->route('admin.lokasis.index')
-        ->with('success', 'Lokasi berhasil dihapus.');
-}
+        return redirect()
+            ->route('admin.lokasis.index')
+            ->with('success', 'Lokasi berhasil dihapus.');
+    }
 }

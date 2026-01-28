@@ -24,7 +24,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $payload = $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|max:255|unique:kategoris,nama',
+        ], [
+            'nama.required' => 'Nama kategori wajib diisi.',
+            'nama.max' => 'Nama kategori maksimal 255 karakter.',
+            'nama.unique' => 'Nama kategori sudah ada.',
         ]);
 
         Kategori::create([
@@ -40,7 +44,11 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $payload = $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|max:255|unique:kategoris,nama,' . $id,
+        ], [
+            'nama.required' => 'Nama kategori wajib diisi.',
+            'nama.max' => 'Nama kategori maksimal 255 karakter.',
+            'nama.unique' => 'Nama kategori sudah ada.',
         ]);
 
         $category = Kategori::findOrFail($id);
@@ -58,7 +66,7 @@ class CategoryController extends Controller
     {
         $category = Kategori::findOrFail($id);
         $category->delete();
-        
+
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }

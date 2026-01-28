@@ -31,10 +31,11 @@ class PembayaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_pembayaran' => 'required|string|max:255',
+            'nama_pembayaran' => 'required|string|max:255|unique:pembayarans,nama_pembayaran',
         ], [
             'nama_pembayaran.required' => 'Nama tipe pembayaran harus diisi',
             'nama_pembayaran.max' => 'Nama tipe pembayaran maksimal 255 karakter',
+            'nama_pembayaran.unique' => 'Nama tipe pembayaran sudah ada',
         ]);
 
         Pembayaran::create($validated);
@@ -65,10 +66,11 @@ class PembayaranController extends Controller
     public function update(Request $request, Pembayaran $pembayaran)
     {
         $validated = $request->validate([
-            'nama_pembayaran' => 'required|string|max:255',
+            'nama_pembayaran' => 'required|string|max:255|unique:pembayarans,nama_pembayaran,' . $pembayaran->id,
         ], [
             'nama_pembayaran.required' => 'Nama tipe pembayaran harus diisi',
             'nama_pembayaran.max' => 'Nama tipe pembayaran maksimal 255 karakter',
+            'nama_pembayaran.unique' => 'Nama tipe pembayaran sudah ada',
         ]);
 
         $pembayaran->update($validated);
